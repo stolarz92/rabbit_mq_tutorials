@@ -4,7 +4,9 @@ connection = Bunny.new
 connection.start
 
 channel = connection.create_channel
-queue = channel.queue("hello")
+# Make sure that the queue will survive a RabbitMQ node restart. 
+# In order to do so, we need to declare it as durable.
+queue = channel.queue("task_queue", durable: true)
 
 puts ' [*] Waiting for messages. To exit press CTRL+C'
 
